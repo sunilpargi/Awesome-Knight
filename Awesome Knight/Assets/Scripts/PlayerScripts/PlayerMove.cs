@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
     private bool canMove;
     private bool finished_Movement = false;
 
-    private Vector3 target_Pos = Vector3.zero;
+    private Vector3 target_Pos = Vector3.zero; 
     private Vector3 player_Move = Vector3.zero;
 
     private float player_ToPointDistance;
@@ -61,12 +61,12 @@ public class PlayerMove : MonoBehaviour
                 && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.08f) 
                 // normalized time represent from 0 to 1
             {
-                print("ok");
+                
                 finished_Movement = true;
             }
             else
             {
-                print("Run");
+              
                 MoveThePlayer();
                 player_Move.y = height * Time.deltaTime;
                 collisionFlags = charController.Move(player_Move);
@@ -115,6 +115,29 @@ public class PlayerMove : MonoBehaviour
                 anim.SetFloat("Walk", 0f);
             }
 
+        }
+    }
+
+    public bool FinishedMovement
+    {
+        get
+        {
+            return finished_Movement;
+        }
+        set
+        {
+            finished_Movement = value;
+        }
+    }
+    public Vector3 TargetPosition
+    {
+        get
+        {
+            return target_Pos;
+        }
+        set
+        {
+            target_Pos = value;
         }
     }
 }
