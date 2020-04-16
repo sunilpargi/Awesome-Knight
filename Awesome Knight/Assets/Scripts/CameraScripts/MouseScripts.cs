@@ -30,7 +30,7 @@ public class MouseScripts : MonoBehaviour
                        
                       instantiatedMouse = Instantiate(mousePoint) as GameObject;
                         instantiatedMouse.transform.position = temp;
-                        print("hi");
+
 
                     }
                     else
@@ -39,7 +39,7 @@ public class MouseScripts : MonoBehaviour
                         Destroy(instantiatedMouse);
                         instantiatedMouse = Instantiate(mousePoint) as GameObject;
                         instantiatedMouse.transform.position = temp;
-                        print("hello");
+                        
 
                     }
                 }

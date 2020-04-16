@@ -21,21 +21,44 @@ public class EnemyControlAnotherWay : MonoBehaviour
 
     private Vector3 nextDestination;
 
+    private EnemyHealth enemyHealth;
+
     void Awake()
     {
         playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
         anim = GetComponent < Animator > ();
         navAgent = GetComponent<NavMeshAgent>();
+
+        enemyHealth = GetComponent<EnemyHealth>();
     }
 
    
     void Update()
     {
+        if(enemyHealth.health > 0)
+        {
+            MoveAndAttack();
+        }
+        else
+        {
+            anim.SetBool("Death", true);
+            navAgent.enabled = false;
+
+            if (!anim.IsInTransition(0) && anim.GetCurrentAnimatorStateInfo(0).IsName("Death")
+                && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+            {
+                Destroy(gameObject, 2f);
+            }
+        }
+    }
+
+    void MoveAndAttack()
+    {
         float distance = Vector3.Distance(transform.position, playerTarget.position);
 
-        if(distance > walk_Distance)
+        if (distance > walk_Distance)
         {
-            if(navAgent.remainingDistance <= 0.5f)
+            if (navAgent.remainingDistance <= 0.5f)
             {
                 navAgent.isStopped = false;
 
@@ -43,7 +66,7 @@ public class EnemyControlAnotherWay : MonoBehaviour
                 anim.SetBool("Run", false);
                 anim.SetInteger("Atk", 0);
 
-                nextDestination = walkPoints [walk_Index].position;
+                nextDestination = walkPoints[walk_Index].position;
                 navAgent.SetDestination(nextDestination);
 
                 if (walk_Index == walkPoints.Length - 1)
@@ -58,7 +81,7 @@ public class EnemyControlAnotherWay : MonoBehaviour
         }
         else
         {
-            if(distance > attack_Distance)
+            if (distance > attack_Distance)
             {
                 navAgent.isStopped = false;
 
@@ -78,7 +101,7 @@ public class EnemyControlAnotherWay : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation,
                     Quaternion.LookRotation(targetPostion - transform.position), 5f * Time.deltaTime);
 
-                if(currentAttackTime >= waitAttackTime)
+                if (currentAttackTime >= waitAttackTime)
                 {
                     int atkRange = Random.Range(1, 3);
                     anim.SetInteger("Atk", atkRange);

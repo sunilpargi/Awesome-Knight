@@ -63,10 +63,7 @@ public class PlayerAttack : MonoBehaviour
                     anim.SetInteger("Atk", 1);
                 }
             }
-            else if (Input.GetKeyUp(KeyCode.Alpha1))
-            {
-                anim.SetInteger("Atk", 0);
-            }
+       
            else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 playerMove.TargetPosition = transform.position;

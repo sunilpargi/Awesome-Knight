@@ -39,6 +39,8 @@ public class EnemyCOntrol : MonoBehaviour
     private NavMeshAgent navAgent;
     private Vector3 WhereTo_Navigate;
 
+    private EnemyHealth enemyHealth;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -50,12 +52,19 @@ public class EnemyCOntrol : MonoBehaviour
 
         initialPosition = transform.position;
         WhereTo_Navigate = transform.position;
+
+        enemyHealth = GetComponent<EnemyHealth>();
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(enemyHealth.health <= 0)
+        {
+            enemy_CurrentState = EnemyState.DEATH;
+        }
+
         if(enemy_CurrentState !=EnemyState.DEATH)
         {
             enemy_CurrentState = SetEnemyState(enemy_CurrentState,enemy_LastState,enemyToPlayerDis);
